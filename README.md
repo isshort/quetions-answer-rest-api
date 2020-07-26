@@ -10,3 +10,5 @@ if you want to use some of requirements to install all modules you can write mod
 Run JSON server
     
     json-server --watch fake-api/employee.json
+if you want to run the  nodemon in terminal you can write 
+    $npm run dev

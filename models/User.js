@@ -1,6 +1,7 @@
 const mongoose=require("mongoose");
 const bcrypt=require("bcryptjs");
 const jwt=require("jsonwebtoken");
+const crypto=require("crypto");
 const Scheme=mongoose.Schema;
 
 const userSchema=new Scheme({
@@ -52,6 +53,12 @@ const userSchema=new Scheme({
     blocked:{
         type:Boolean,
         default:false,
+    },
+    resetPasswordToken:{
+        type:String
+    },
+    resetPasswordExpire:{
+        type:Date
     }
 
 });
@@ -67,6 +74,21 @@ userSchema.methods.generateJwtFromUser=function(){
         payload, JWT_SECRET_KEY,
         {expiresIn : JWT_EXPIRE});
     return token;
+}
+//Reset Your passowrd
+userSchema.methods.getResetPasswordTokenFormUser=function (){
+    const {RESET_PASSWORD_EXPIRE}=process.env;
+    const randomString=crypto.randomBytes(15).toString("hex");
+    // console.log(randomString);
+    const resetPasswordToken=crypto
+        .createHash("SHA256")
+        .update(randomString)
+        .digest("hex");
+    // console.log(resetPasswordToken);
+
+    this.resetPasswordToken=resetPasswordToken;
+    this.resetPasswordExpire=Date.now()+parseInt(RESET_PASSWORD_EXPIRE);
+
 }
 
 // Here we can encrypt the password before saving to database

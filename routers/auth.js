@@ -1,5 +1,5 @@
 const express=require("express");
-const { registerUser,login,logout,errTest ,getUser,ImageUpload} = require("../controllers/auth");
+const { registerUser,login,logout,errTest ,getUser,ImageUpload,forgotPassword} = require("../controllers/auth");
 const {getAccessToRoute}=require("../middlewares/authorization/auth");
 const profileImageUpload=require("../middlewares/libraries/profileImageUpload");
 //api/auth
@@ -10,6 +10,7 @@ router.get("/logout",getAccessToRoute,logout);
 router.get("/error",errTest);
 router.get("/profile",getAccessToRoute,getUser);
 router.post("/upload",[getAccessToRoute,profileImageUpload.single("profile_image")],ImageUpload);
+router.post("/forgot",forgotPassword);
 
  
 module.exports=router;

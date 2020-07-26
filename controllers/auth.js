@@ -74,11 +74,19 @@ const getUser = (req, res, next) => {
 }
 const ImageUpload=asyncErrorWrapper(async (req, res, next) => {
     //Image Uploaded Success
+    // here saveProfileImage we can take from ProfileImageUpload.js file filename
+    const user=await User.findByIdAndUpdate(req.user.id,{
+        "profile_img":req.saveProfileImage
+    },{
+        new:true,
+        runValidators:true
+    })
     res
         .status(200)
         .json({
             success:true,
-            message:"Image successfully uploaded"
+            message:"Image successfully uploaded",
+            data:user
         })
 });
 module.exports = {

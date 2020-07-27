@@ -22,7 +22,13 @@ const QuestionSchema=new Schema({
         type:mongose.Schema.ObjectId,
         required:true,
         ref:"User"  //Here we can connect Question database to User
-    }
+    },
+    likes:[
+        {
+            type:mongose.Schema.ObjectId,
+            ref:"User"
+        }
+    ]
 
 })
 

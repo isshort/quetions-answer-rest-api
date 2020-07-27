@@ -14,7 +14,7 @@ if you want to run the  nodemon in terminal you can write
      
     $npm run dev
 
-Create craete a file  config/env/config.env
+Create create a file  config/env/config.env
     
     #Server Variable 
     PORT=5000

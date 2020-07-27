@@ -4,9 +4,16 @@ const asyncErrorWrapper = require("express-async-handler");
 const getSingleAuth=asyncErrorWrapper(async (req, res, next) => {
     const {id}=req.params;
     const user=await User.findById(id);
-    if(!user){
-        return next(new CustomError("There is no such user with that id ",400));
-    }
+
+    return res
+        .status(200)
+        .json({
+            success:true,
+            data:user
+        })
+});
+const getAllUsers=asyncErrorWrapper(async (req, res, next) => {
+    const user=await User.find()
     return res
         .status(200)
         .json({
@@ -16,5 +23,6 @@ const getSingleAuth=asyncErrorWrapper(async (req, res, next) => {
 });
 
 module.exports={
-    getSingleAuth
+    getSingleAuth,
+    getAllUsers
 }

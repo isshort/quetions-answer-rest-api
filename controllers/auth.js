@@ -124,11 +124,36 @@ const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
         user.resetPasswordExpire = undefined;
         user.resetPasswordToken = undefined;
         await user.save();
-        return next(new customError("Email couldn't be sent ",500));
+        return next(new customError("Email couldn't be sent ", 500));
 
     }
 
 });
+const resetPassword = asyncErrorWrapper(async (req, res, next) => {
+    const {resetPasswordToken} = req.query; // here the token password
+    const {password} = req.body; // here we can send or make new password
+    if (!resetPasswordToken) {
+        return next(new customError("Please provide a valid token", 400));
+    }
+    let user = await User.findOne({
+        resetPasswordToken: resetPasswordToken,
+        resetPasswordExpire: {$gt: Date.now()}  // here resetPasswordExprie > Data.now()
+    });
+    if (!user) {
+        return next(customError("Invalid Token or Session Expired",404));
+    }
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+    res
+        .status(200)
+        .json({
+            success: true,
+            message: "Reset Password"
+        })
+});
+
 module.exports = {
     registerUser,
     login,
@@ -136,5 +161,6 @@ module.exports = {
     errTest,
     getUser,
     ImageUpload,
-    forgotPassword
+    forgotPassword,
+    resetPassword
 };

@@ -9,8 +9,10 @@ const {
     getUser,
     ImageUpload,
     forgotPassword,
-    resetPassword
+    resetPassword,
+
 } = require("../controllers/auth");
+
 //api/auth
 const router=express.Router();
 router.post("/",registerUser);

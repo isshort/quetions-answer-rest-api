@@ -25,6 +25,7 @@ const registerUser = asyncErrorWrapper(async (req, res, next) => {
 
 
 });
+
 const login = asyncErrorWrapper(async (req, res, next) => {
     const {email, password} = req.body
     if (!validateUserInput(email, password)) {
@@ -162,5 +163,6 @@ module.exports = {
     getUser,
     ImageUpload,
     forgotPassword,
-    resetPassword
+    resetPassword,
+
 };

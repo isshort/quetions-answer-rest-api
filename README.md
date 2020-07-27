@@ -11,4 +11,5 @@ Run JSON server
     
     json-server --watch fake-api/employee.json
 if you want to run the  nodemon in terminal you can write 
+     
     $npm run dev

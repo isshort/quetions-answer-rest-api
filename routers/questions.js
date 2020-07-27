@@ -1,10 +1,11 @@
 const express=require("express");
-const {getAllquestions}=require("../controllers/question")
-
+const {askQuestion,getAllQuestions}=require("../controllers/questions")
+const {getAccessToRoute}=require("../middlewares/authorization/auth")
 //api/questions
 const router=express.Router();
 
-router.get("/",getAllquestions);
+router.get("/",getAllQuestions);
+router.post("/ask",getAccessToRoute,askQuestion);
 
  
 module.exports=router;

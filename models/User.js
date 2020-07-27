@@ -6,7 +6,7 @@ const Scheme=mongoose.Schema;
 
 const userSchema=new Scheme({
 
-    name:{
+        name:{
         type:String,
         required:[true,"please Enter your name"]
     },

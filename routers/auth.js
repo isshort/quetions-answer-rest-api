@@ -10,6 +10,7 @@ const {
     ImageUpload,
     forgotPassword,
     resetPassword,
+    editDetails
 
 } = require("../controllers/auth");
 
@@ -23,6 +24,7 @@ router.get("/profile",getAccessToRoute,getUser);
 router.post("/upload",[getAccessToRoute,profileImageUpload.single("profile_image")],ImageUpload);
 router.post("/forgot",forgotPassword);
 router.put("/resetpassword",resetPassword);
+router.put("/edit",getAccessToRoute,editDetails);
 
  
 module.exports=router;

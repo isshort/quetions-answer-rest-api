@@ -1,11 +1,15 @@
-const express=require("express");
-const {askQuestion,getAllQuestions}=require("../controllers/questions")
-const {getAccessToRoute}=require("../middlewares/authorization/auth")
+const express = require("express");
+const {askQuestion, getAllQuestions, getQuestion, editQuestions, deleteQuestion} = require("../controllers/questions")
+const {getAccessToRoute, getQuestionOwnerAccess} = require("../middlewares/authorization/auth")
+const {CheckQuestionExist} = require("../middlewares/database/databaseErrorHelpers");
 //api/questions
-const router=express.Router();
+const router = express.Router();
 
-router.get("/",getAllQuestions);
-router.post("/ask",getAccessToRoute,askQuestion);
+router.get("/", getAllQuestions);
+router.post("/ask", getAccessToRoute, askQuestion);
+router.get("/ask/:id", CheckQuestionExist, getQuestion);
+router.put("/:id/edit", [getAccessToRoute, CheckQuestionExist, getQuestionOwnerAccess], editQuestions);
+router.delete("/:id/delete", [getAccessToRoute, CheckQuestionExist, getQuestionOwnerAccess], deleteQuestion);
 
- 
-module.exports=router;
+
+module.exports = router;

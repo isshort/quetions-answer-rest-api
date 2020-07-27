@@ -24,7 +24,50 @@ const getAllQuestions=asyncErrorWrapper(async (req, res, next) => {
             data:questions
         })
 });
+const getQuestion=asyncErrorWrapper(async (req, res, next) => {
+    const {id}=req.params;
+    const question=await Questions.findById(id);
+    res
+        .status(200)
+        .json({
+            success:true,
+            data:question
+        })
+
+});
+const editQuestions=asyncErrorWrapper(async (req, res, next) => {
+    const {id}=req.params;
+    const {title,content}=req.body;
+    let question=await Questions.findById(id);
+
+    question.title=title;
+    question.content=content;
+    question.save();
+    return res
+        .status(200)
+        .json({
+            success:true,
+            data:question
+        })
+
+});
+const deleteQuestion=asyncErrorWrapper(async (req, res, next) => {
+    const {id}=req.params;
+
+    const question=await Questions.findById(id);
+    await question.remove();
+    return res
+        .status(200)
+        .json({
+            success:true,
+           message:"Questions was deleted"
+        })
+
+});
 module.exports={
     askQuestion,
-    getAllQuestions
+    getAllQuestions,
+    getQuestion,
+    editQuestions,
+    deleteQuestion
 };

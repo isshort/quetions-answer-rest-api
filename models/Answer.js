@@ -35,6 +35,7 @@ AnswerSchema.pre("save", async function (next) {
         // with question name
 
         question.answers.push(this._id);// we can add to question model id of the answer
+        question.answerCount=question.answers.length
         await question.save();
         next();
     } catch (err) {

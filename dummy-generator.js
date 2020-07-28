@@ -1,9 +1,9 @@
-const Question = require("./models/Question");
+const Question = require("./models/Questions");
 const Answer = require("./models/Answer");
 const User = require("./models/User");
 const fs = require("fs");
 const connectDatabase = require("./helpers/database/connectDatabase");
-const CustomError = require("./helpers/error/customError");
+const CustomError = require("./helpers/error/CustomError");
 
 const dotenv = require("dotenv");
 

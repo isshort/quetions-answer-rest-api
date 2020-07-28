@@ -16,11 +16,52 @@ const askQuestion = asyncErrorWrapper(async (req, res, next) => {
         });
 });
 const getAllQuestions = asyncErrorWrapper(async (req, res, next) => {
-    const questions = await Questions.find();
+    // console.log(req.query.search)
+    let query = Questions.find();
+    const populate = true;
+    const populateObject = {
+        path: "user",
+        select: "name profile_img"
+    }
+    //search
+    if (req.query.search) {
+        const searchObject = {};
+        const regex = new RegExp(req.query.search, "i");
+        searchObject["title"] = regex;
+        query = query.where(searchObject);
+        // Questions.find().where(searchObject);
+    }
+    //populate
+    if (populate) {
+        query = query.populate(populateObject);
+    }
+    //Pagination
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 5
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const total = await Questions.countDocuments();
+    const pagination = {}
+    if (startIndex > 0) {
+        pagination.previous = {
+            page: page - 1,
+            limit: limit
+        }
+    }
+    if (endIndex < total) {
+        pagination.next = {
+            page: page + 1,
+            limit: limit
+        }
+    }
+    query = query.skip(startIndex).limit(limit);
+    const questions = await query;
     return res
         .status(200)
         .json({
-            sucess: true,
+            success: true,
+            count: questions.length,
+            pagination: pagination,
             data: questions
         })
 });
@@ -87,8 +128,8 @@ const UndoLikeQuestion = asyncErrorWrapper(async (req, res, next) => {
     if (!question.likes.includes(req.user.id)) {
         return next(new CustomError("You can't undo like operation for this question", 400));
     }
-    const index=question.likes.indexOf(question);
-    question.likes.splice(index,1)//delete this id for the likes array
+    const index = question.likes.indexOf(question);
+    question.likes.splice(index, 1)//delete this id for the likes array
     await question.save();
     return res
         .status(200)

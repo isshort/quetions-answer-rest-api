@@ -28,6 +28,12 @@ const QuestionSchema=new Schema({
             type:mongose.Schema.ObjectId,
             ref:"User"
         }
+    ],
+    answers:[
+        {
+            type:mongose.Schema.ObjectId,
+            ref:"Answer"
+        }
     ]
 
 })

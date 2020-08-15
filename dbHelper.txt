@@ -1,0 +1,9 @@
+show database names
+>db.getMongo().getDBNames()
+get tables list
+>db.getCollectionNames()
+or
+> show collections
+
+select all in mongoDB
+> db.collectionName.find(); => db.questions.find()

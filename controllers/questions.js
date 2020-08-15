@@ -23,14 +23,7 @@ const getAllQuestions = asyncErrorWrapper(async (req, res, next) => {
         path: "user",
         select: "name profile_img"
     }
-    //search
-    if (req.query.search) {
-        const searchObject = {};
-        const regex = new RegExp(req.query.search, "i");
-        searchObject["title"] = regex;
-        query = query.where(searchObject);
-        // Questions.find().where(searchObject);
-    }
+
     //populate
     if (populate) {
         query = query.populate(populateObject);

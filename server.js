@@ -20,8 +20,9 @@ const app =express();
 // Express Body Middleware when you post data with json
 app.use(express.json());
 
-const PORT= process.env.PORT;
 
+const PORT= process.env.PORT | 3000;
+console.log("your pori si ",PORT)
 // Routers Middleware we can use
 // and create the url for question and auth
 app.use("/api",routers);

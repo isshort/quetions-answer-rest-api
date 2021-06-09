@@ -17,7 +17,7 @@
 const mongoose=require("mongoose");
 
 const connectToDb=()=>{
-    const conStr = 'mongodb://localhost:27017/questionAPI';
+    const conStr = 'mongodb://mongodb:27017/questionAPI';
     mongoose.connect(conStr, {
         useNewUrlParser: true,
         useFindAndModify:false,
